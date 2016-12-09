@@ -15,12 +15,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         waveProgressbar = (WaveProgressbar) findViewById(R.id.waveProgressbar);
-        waveProgressbar.post(new Runnable() {
-            @Override
-            public void run() {
-                waveProgressbar.startWaveAnimation();
-            }
-        });
 
     }
 }

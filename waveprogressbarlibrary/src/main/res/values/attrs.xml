@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WaveProgressbar">
+        <attr name="height" format="dimension"></attr>
+        <attr name="width" format="dimension"></attr>
+        <attr name="wave_duration" format="integer"></attr>
+        <attr name="max" format="integer"></attr>
+        <attr name="progress" format="integer"></attr>
+        <attr name="behind_wave_color" format="color"></attr>
+        <attr name="front_wave_color" format="color"></attr>
+        <attr name="arc_color" format="color"></attr>
+        <attr name="border_width" format="dimension"></attr>
+        <attr name="border_color" format="color"></attr>
+        <attr name="shape" format="string"></attr>
+        <attr name="cavans_bg" format="color"></attr>
+    </declare-styleable>
+</resources>
