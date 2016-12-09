@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewParent;
 import android.view.animation.LinearInterpolator;
 
 /**
@@ -41,6 +42,12 @@ public class WaveProgressbar extends View {
 
     public static final String SQUARE = "square";
 
+    protected static final String PERCENT_CHAR = "%";
+
+    protected static final int DEFAULT_TEXT_COLOR = Color.WHITE;
+
+    protected static final int DEFAULT_TEXT_SIZE = 20;
+
     protected static final int DEFAULT_CAVANS_BG = Color.GRAY;
 
     protected static final int DEFAULT_BORDER_COLOR = Color.TRANSPARENT;
@@ -50,8 +57,6 @@ public class WaveProgressbar extends View {
     protected static final int DEFAULT_ARC_COLOR = Color.WHITE;
 
     protected static final int DEFAULT_WAVE_DURATION = 1000;
-
-    protected static final int DEFAULT_BGCOLOR = 0xffefefef;
 
     protected static final int DEFAULT_BEHIND_WAVE_COLOR = Color.parseColor("#28FFFFFF");
 
@@ -94,6 +99,12 @@ public class WaveProgressbar extends View {
     protected ValueAnimator valueAnimator;
 
     protected int width, height;
+
+    protected Paint.FontMetrics fontMetrics;
+
+    protected int textSize, textColor, text_margin_top;
+
+    protected boolean autoTestSize;
 
     public WaveProgressbar(Context context) {
         super(context);
@@ -139,6 +150,14 @@ public class WaveProgressbar extends View {
                 setWidth(typedArray.getDimensionPixelSize(attr, SIDE_LENGTH));
             else if (attr == R.styleable.WaveProgressbar_height)
                 setHeight(typedArray.getDimensionPixelSize(attr, SIDE_LENGTH));
+            else if (attr == R.styleable.WaveProgressbar_text_size)
+                setTextSize(typedArray.getDimensionPixelSize(attr, DEFAULT_TEXT_SIZE));
+            else if (attr == R.styleable.WaveProgressbar_text_color)
+                setTextColor(typedArray.getColor(attr, DEFAULT_TEXT_COLOR));
+            else if (attr == R.styleable.WaveProgressbar_auto_text_size)
+                setAudoTextSize(typedArray.getBoolean(attr, false));
+            else if (attr == R.styleable.WaveProgressbar_text_margin_top)
+                setTextMarginTop(typedArray.getDimensionPixelSize(attr, -1));
         }
         typedArray.recycle();
     }
@@ -181,9 +200,14 @@ public class WaveProgressbar extends View {
 
         pathPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         pathPaint.setStyle(Paint.Style.FILL);
-    }
 
-//    float s;
+        textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        if (autoTestSize)
+            textSize = side_length / 30;
+        textPaint.setTextSize(textSize);
+        textPaint.setColor(textColor);
+        fontMetrics = textPaint.getFontMetrics();
+    }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -198,6 +222,11 @@ public class WaveProgressbar extends View {
         percent_height = side_length / max;
 
         dwave = side_length / 40 * 3;
+
+        if (text_margin_top == -1)
+            text_margin_top = (int) (side_length / 2 + (fontMetrics.top - fontMetrics.bottom) / 2);
+
+        initPaints();
 
     }
 
@@ -220,7 +249,7 @@ public class WaveProgressbar extends View {
         int wave_height = side_length - progress * percent_height;
         int baseX = -side_length + dx;
         path.reset();
-        pathPaint.setColor(DEFAULT_BEHIND_WAVE_COLOR);
+        pathPaint.setColor(behind_wave_color);
         path.moveTo(baseX, wave_height);
         for (int i = 0; i < 2; i++) {
             path.rQuadTo(quarter_side_length, -dwave, half_side_length, 0);
@@ -232,7 +261,7 @@ public class WaveProgressbar extends View {
         canvas.drawPath(path, pathPaint);
 
         path.reset();
-        pathPaint.setColor(DEFAULT_FRONT_WAVE_COLOR);
+        pathPaint.setColor(front_wave_color);
         path.moveTo(baseX - eighth_side_length, wave_height);
         for (int i = 0; i < 3; i++) {
             path.rQuadTo(quarter_side_length, dwave, half_side_length, 0);
@@ -291,6 +320,28 @@ public class WaveProgressbar extends View {
             }
         });
         valueAnimator.start();
+    }
+
+    public void setTextMarginTop(int text_margin_top) {
+        this.text_margin_top = text_margin_top;
+    }
+
+    public void setAudoTextSize(boolean audoTextSize) {
+        this.autoTestSize = audoTextSize;
+    }
+
+    public void setTextSize(int textSize) {
+        this.textSize = textSize;
+    }
+
+    public void setTextColor(int textColor) {
+        this.textColor = textColor;
+    }
+
+    public void setTextParams(int textSize, int textColor) {
+        setTextSize(textSize);
+        setTextColor(textColor);
+        postInvalidate();
     }
 
     public void setWidth(int width) {
