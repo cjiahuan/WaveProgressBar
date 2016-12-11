@@ -5,15 +5,17 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="#ffffff"
     android:gravity="center"
     tools:context="cjh.waveprogressbar.MainActivity">
 
     <cjh.waveprogressbarlibrary.WaveProgressbar
         android:id="@+id/waveProgressbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:arc_color="@android:color/black"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        app:arc_color="@android:color/white"
+        app:cavans_bg="#3C3C3C"
         app:progress="30"
-        app:shape="square" />
+        app:shape="circle"
+        app:text_size="20sp" />
 </RelativeLayout>

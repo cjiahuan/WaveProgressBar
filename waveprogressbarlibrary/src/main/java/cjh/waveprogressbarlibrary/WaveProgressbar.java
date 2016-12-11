@@ -26,7 +26,7 @@ import android.view.animation.LinearInterpolator;
 
 public class WaveProgressbar extends View {
 
-    private static final String TAG = "waveprogressbar";
+    protected static final String TAG = "waveprogressbar";
 
     protected Paint textPaint, pathPaint;
 
@@ -56,7 +56,7 @@ public class WaveProgressbar extends View {
 
     protected static final int DEFAULT_ARC_COLOR = Color.WHITE;
 
-    protected static final int DEFAULT_WAVE_DURATION = 1000;
+    protected static final int DEFAULT_WAVE_DURATION = 1500;
 
     protected static final int DEFAULT_BEHIND_WAVE_COLOR = Color.parseColor("#28FFFFFF");
 
@@ -102,7 +102,9 @@ public class WaveProgressbar extends View {
 
     protected Paint.FontMetrics fontMetrics;
 
-    protected int textSize, textColor, text_margin_top;
+    protected int textSize = DEFAULT_TEXT_SIZE;
+    protected int textColor = DEFAULT_TEXT_COLOR;
+    protected int text_margin_top;
 
     protected boolean autoTestSize;
 
@@ -123,7 +125,7 @@ public class WaveProgressbar extends View {
         initPaints();
     }
 
-    private void initAttrs(AttributeSet attrs) {
+    protected void initAttrs(AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.WaveProgressbar);
         int count = typedArray.getIndexCount();
         for (int i = 0; i < count; i++) {
@@ -145,7 +147,7 @@ public class WaveProgressbar extends View {
             else if (attr == R.styleable.WaveProgressbar_shape)
                 setShape(typedArray.getString(attr));
             else if (attr == R.styleable.WaveProgressbar_progress)
-                setProgress(typedArray.getInteger(attr, 0));
+                progress = typedArray.getInteger(attr, 0);
             else if (attr == R.styleable.WaveProgressbar_width)
                 setWidth(typedArray.getDimensionPixelSize(attr, SIDE_LENGTH));
             else if (attr == R.styleable.WaveProgressbar_height)
@@ -157,7 +159,7 @@ public class WaveProgressbar extends View {
             else if (attr == R.styleable.WaveProgressbar_auto_text_size)
                 setAudoTextSize(typedArray.getBoolean(attr, false));
             else if (attr == R.styleable.WaveProgressbar_text_margin_top)
-                setTextMarginTop(typedArray.getDimensionPixelSize(attr, -1));
+                setTextMarginTop(typedArray.getDimensionPixelSize(attr, 0));
         }
         typedArray.recycle();
     }
@@ -168,7 +170,7 @@ public class WaveProgressbar extends View {
         setMeasuredDimension(side_length, side_length);
     }
 
-    private int initSideLength(int widthMeasureSpec, int heightMeasureSpec) {
+    protected int initSideLength(int widthMeasureSpec, int heightMeasureSpec) {
         int w, h;
         int wMode = MeasureSpec.getMode(widthMeasureSpec);
         int wSize = MeasureSpec.getSize(widthMeasureSpec);
@@ -179,7 +181,7 @@ public class WaveProgressbar extends View {
         return Math.min(w, h);
     }
 
-    private int getResult(int mode, int size) {
+    protected int getResult(int mode, int size) {
         int result = 0;
         switch (mode) {
             case MeasureSpec.EXACTLY:
@@ -203,7 +205,7 @@ public class WaveProgressbar extends View {
 
         textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         if (autoTestSize)
-            textSize = side_length / 30;
+            textSize = side_length / 12;
         textPaint.setTextSize(textSize);
         textPaint.setColor(textColor);
         fontMetrics = textPaint.getFontMetrics();
@@ -212,7 +214,7 @@ public class WaveProgressbar extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        Log.d(TAG, "w = " + w + " : h = " + h);
+//        Log.d(TAG, "w = " + w + " : h = " + h);
         rectf = new RectF(0, 0, side_length, side_length);
 
         half_side_length = side_length / 2;
@@ -221,10 +223,10 @@ public class WaveProgressbar extends View {
 
         percent_height = side_length / max;
 
-        dwave = side_length / 40 * 3;
+        dwave = side_length / 40 * 2;
 
-        if (text_margin_top == -1)
-            text_margin_top = (int) (side_length / 2 + (fontMetrics.top - fontMetrics.bottom) / 2);
+        if (text_margin_top == 0)
+            text_margin_top = (int) (side_length / 2 + (fontMetrics.descent - fontMetrics.ascent) / 2);
 
         initPaints();
 
@@ -234,20 +236,33 @@ public class WaveProgressbar extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawColor(cavans_bg);
-        Log.d(TAG, "progresss = " + progress);
+//        Log.d(TAG, "progresss = " + progress);
         if (progress > 0 && progress < max)
             drawWave(canvas);
         else if (progress == max)
             canvas.drawColor(front_wave_color);
+
+        drawText(canvas);
 
         if (shape.equals(CIRCLE))
             drawArcs(canvas);
 
     }
 
-    private void drawWave(Canvas canvas) {
+    protected void drawText(Canvas canvas) {
+        String text = progress + PERCENT_CHAR;
+        int textLength = (int) textPaint.measureText(text);
+        int i = (side_length - textLength) / 2;
+        canvas.drawText(text, i, text_margin_top, textPaint);
+
+    }
+
+    protected void drawWave(Canvas canvas) {
         int wave_height = side_length - progress * percent_height;
         int baseX = -side_length + dx;
+        Log.d(TAG, baseX + "");
+        if (baseX > 0)
+            baseX = 0;
         path.reset();
         pathPaint.setColor(behind_wave_color);
         path.moveTo(baseX, wave_height);
@@ -273,7 +288,7 @@ public class WaveProgressbar extends View {
         canvas.drawPath(path, pathPaint);
     }
 
-    private void drawArcs(Canvas canvas) {
+    protected void drawArcs(Canvas canvas) {
         pathPaint.setColor(arcColor);
 
         path.reset();
@@ -307,7 +322,7 @@ public class WaveProgressbar extends View {
 
     public void startWaveAnimation() {
         animation = true;
-        valueAnimator = ValueAnimator.ofInt(0, Math.min(width, height));
+        valueAnimator = ValueAnimator.ofInt(0, Math.min(side_length, Math.min(width, height)));
         valueAnimator.setDuration(wave_duration);
         valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
         valueAnimator.setInterpolator(new LinearInterpolator());
@@ -401,8 +416,11 @@ public class WaveProgressbar extends View {
 
     public void setProgress(int progress) {
         this.progress = progress;
-        if (progress > 0 && progress < max && !animation)
-            startWaveAnimation();
+        if (progress > 0 && progress < max)
+            if (!animation)
+                startWaveAnimation();
+            else
+                postInvalidate();
         else {
             stopWaveAnimation();
             postInvalidate();
