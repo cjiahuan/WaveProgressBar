@@ -325,7 +325,14 @@ public class WaveProgressBar extends View {
 
     public void startWaveAnimation() {
         animation = true;
-        valueAnimator = ValueAnimator.ofInt(0, Math.min(side_length, Math.min(width, height)));
+        int value = 0;
+        if (side_length == 0)
+            value = Math.min(width, height);
+        else if (height == width && height == 0)
+            value = side_length;
+        else
+            value = Math.min(side_length, Math.min(width, height));
+        valueAnimator = ValueAnimator.ofInt(0, value);
         valueAnimator.setDuration(wave_duration);
         valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
         valueAnimator.setInterpolator(new LinearInterpolator());
