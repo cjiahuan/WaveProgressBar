@@ -34,7 +34,7 @@ public class WaveProgressbar extends View {
 
     protected int dx;
 
-    protected int dwave = 60;
+    protected int dwave = -1;
 
     protected Context context;
 
@@ -138,6 +138,8 @@ public class WaveProgressbar extends View {
                 setFrontWaveColor(typedArray.getColor(attr, DEFAULT_FRONT_WAVE_COLOR));
             else if (attr == R.styleable.WaveProgressbar_cavans_bg)
                 setCavansBG(typedArray.getColor(attr, DEFAULT_CAVANS_BG));
+            else if (attr == R.styleable.WaveProgressbar_dwave)
+                setDwave(typedArray.getDimensionPixelSize(attr, -1));
             else if (attr == R.styleable.WaveProgressbar_wave_duration)
                 setWaveDuration(typedArray.getInteger(attr, DEFAULT_WAVE_DURATION));
             else if (attr == R.styleable.WaveProgressbar_border_color)
@@ -204,6 +206,10 @@ public class WaveProgressbar extends View {
         pathPaint.setStyle(Paint.Style.FILL);
 
         textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        initTxtPaint();
+    }
+
+    private void initTxtPaint() {
         if (autoTestSize)
             textSize = side_length / 12;
         textPaint.setTextSize(textSize);
@@ -223,7 +229,8 @@ public class WaveProgressbar extends View {
 
         percent_height = side_length / max;
 
-        dwave = side_length / 40 * 2;
+        if (dwave == -1)
+            dwave = side_length / 40 * 3;
 
         if (text_margin_top == 0)
             text_margin_top = (int) (side_length / 2 + (fontMetrics.descent - fontMetrics.ascent) / 2);
@@ -260,7 +267,7 @@ public class WaveProgressbar extends View {
     protected void drawWave(Canvas canvas) {
         int wave_height = side_length - progress * percent_height;
         int baseX = -side_length + dx;
-        Log.d(TAG, baseX + "");
+//        Log.d(TAG, baseX + "");
         if (baseX > 0)
             baseX = 0;
         path.reset();
@@ -337,39 +344,51 @@ public class WaveProgressbar extends View {
         valueAnimator.start();
     }
 
+    public void setDwave(int dwave) {
+        this.dwave = dwave;
+        postInvalidate();
+    }
+
     public void setTextMarginTop(int text_margin_top) {
         this.text_margin_top = text_margin_top;
+        postInvalidate();
     }
 
     public void setAudoTextSize(boolean audoTextSize) {
         this.autoTestSize = audoTextSize;
+        initTxtPaint();
+        postInvalidate();
     }
 
     public void setTextSize(int textSize) {
-        this.textSize = textSize;
+        setTextParams(textSize, -1);
     }
 
     public void setTextColor(int textColor) {
-        this.textColor = textColor;
+        setTextParams(-1, textColor);
     }
 
     public void setTextParams(int textSize, int textColor) {
-        setTextSize(textSize);
-        setTextColor(textColor);
+        if (textSize != -1)
+            this.textSize = textSize;
+        if (textSize != -1)
+            this.textColor = textColor;
+        initTxtPaint();
         postInvalidate();
     }
 
     public void setWidth(int width) {
-        this.width = width;
+        setWH(width, 0);
     }
 
     public void setHeight(int height) {
-        this.height = height;
+        setWH(0, height);
     }
 
     public void setWH(int width, int height) {
-        setWidth(width);
-        setHeight(height);
+        this.width = width;
+        this.height = height;
+        postInvalidate();
     }
 
     public void stopWaveAnimation() {

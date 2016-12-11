@@ -3,6 +3,7 @@
     <declare-styleable name="WaveProgressbar">
         <attr name="height" format="dimension"></attr>
         <attr name="width" format="dimension"></attr>
+        <attr name="dwave" format="dimension"></attr>
         <attr name="wave_duration" format="integer"></attr>
         <attr name="max" format="integer"></attr>
         <attr name="progress" format="integer"></attr>
