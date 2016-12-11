@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void start(View view) {
-        mTimer.schedule(mTimerTask, 3000, 80);
+        mTimer.schedule(mTimerTask, 0, 80);
     }
 
     public void stop(View view) {

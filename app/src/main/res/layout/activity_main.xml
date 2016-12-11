@@ -43,36 +43,103 @@
 
     </LinearLayout>
 
-    <SeekBar
-        android:id="@+id/changeWave"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:max="100"
-        android:progress="0" />
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <SeekBar
-        android:id="@+id/changeProgress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:max="100"
-        android:progress="0" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="wave"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
 
-    <SeekBar
-        android:id="@+id/changeText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:max="100"
-        android:progress="0" />
+        <SeekBar
+            android:id="@+id/changeWave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:max="100"
+            android:progress="0" />
 
-    <SeekBar
-        android:id="@+id/changeMargin"
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:max="100"
-        android:progress="0" />
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="progress"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <SeekBar
+            android:id="@+id/changeProgress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:max="100"
+            android:progress="0" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="textSize"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <SeekBar
+            android:id="@+id/changeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:max="100"
+            android:progress="0" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="textMargin"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <SeekBar
+            android:id="@+id/changeMargin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:max="100"
+            android:progress="0" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

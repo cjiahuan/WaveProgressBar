@@ -102,6 +102,8 @@ public class WaveProgressBar extends View {
     protected int text_margin_top;
 
     protected boolean autoTestSize;
+    protected boolean text_follow_progress = true;
+    protected String text = "";
 
     public WaveProgressBar(Context context) {
         super(context);
@@ -157,6 +159,8 @@ public class WaveProgressBar extends View {
                 setAudoTextSize(typedArray.getBoolean(attr, false));
             else if (attr == R.styleable.WaveProgressBar_text_margin_top)
                 setTextMarginTop(typedArray.getDimensionPixelSize(attr, 0));
+            else if (attr == R.styleable.WaveProgressBar_text_follow_progress)
+                setTextFollowProgress(typedArray.getBoolean(attr, true));
         }
         typedArray.recycle();
     }
@@ -253,7 +257,8 @@ public class WaveProgressBar extends View {
     }
 
     protected void drawText(Canvas canvas) {
-        String text = progress + PERCENT_CHAR;
+        if (text_follow_progress)
+            text = progress + PERCENT_CHAR;
         int textLength = (int) textPaint.measureText(text);
         int i = (side_length - textLength) / 2;
         canvas.drawText(text, i, text_margin_top, textPaint);
@@ -345,6 +350,10 @@ public class WaveProgressBar extends View {
             }
         });
         valueAnimator.start();
+    }
+
+    public void setTextFollowProgress(boolean text_follow_progress) {
+        this.text_follow_progress = text_follow_progress;
     }
 
     public void setDwave(int dwave) {
