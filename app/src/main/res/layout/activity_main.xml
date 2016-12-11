@@ -9,7 +9,7 @@
     android:gravity="center"
     tools:context="cjh.waveprogressbar.MainActivity">
 
-    <cjh.waveprogressbarlibrary.WaveProgressbar
+    <cjh.WaveProgressBarlibrary.WaveProgressBar
         android:id="@+id/waveProgressbar"
         android:layout_width="160dp"
         android:layout_height="160dp"
@@ -18,6 +18,7 @@
         app:progress="30"
         app:shape="circle"
         app:text_size="20sp" />
+
 
 
 </RelativeLayout>

@@ -6,11 +6,12 @@ import android.os.Bundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import cjh.waveprogressbarlibrary.WaveProgressbar;
+import cjh.WaveProgressBarlibrary.WaveProgressBar;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    private WaveProgressbar waveProgressbar;
+    private WaveProgressBar waveProgressbar;
 
     private Timer mTimer;
     private TimerTask mTimerTask;
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        waveProgressbar = (WaveProgressbar) findViewById(R.id.waveProgressbar);
+        waveProgressbar = (WaveProgressBar) findViewById(R.id.waveProgressbar);
 
         mTimer = new Timer();
         mTimerTask = new TimerTask() {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="WaveProgressbar">
+    <declare-styleable name="WaveProgressBar">
         <attr name="height" format="dimension"></attr>
         <attr name="width" format="dimension"></attr>
         <attr name="dwave" format="dimension"></attr>

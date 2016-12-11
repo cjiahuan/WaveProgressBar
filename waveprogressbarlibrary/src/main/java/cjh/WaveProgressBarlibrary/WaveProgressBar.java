@@ -1,4 +1,4 @@
-package cjh.waveprogressbarlibrary;
+package cjh.WaveProgressBarlibrary;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -7,26 +7,21 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.graphics.RectF;
-import android.nfc.Tag;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewParent;
 import android.view.animation.LinearInterpolator;
+
+import cjh.waveprogressbarlibrary.R;
 
 /**
  * Created by cjh on 16-12-8.
  */
 
-public class WaveProgressbar extends View {
+public class WaveProgressBar extends View {
 
-    protected static final String TAG = "waveprogressbar";
+    protected static final String TAG = "WaveProgressBar";
 
     protected Paint textPaint, pathPaint;
 
@@ -108,12 +103,12 @@ public class WaveProgressbar extends View {
 
     protected boolean autoTestSize;
 
-    public WaveProgressbar(Context context) {
+    public WaveProgressBar(Context context) {
         super(context);
         init(context, null);
     }
 
-    public WaveProgressbar(Context context, AttributeSet attrs) {
+    public WaveProgressBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
@@ -126,41 +121,41 @@ public class WaveProgressbar extends View {
     }
 
     protected void initAttrs(AttributeSet attrs) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.WaveProgressbar);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.WaveProgressBar);
         int count = typedArray.getIndexCount();
         for (int i = 0; i < count; i++) {
             int attr = typedArray.getIndex(i);
-            if (attr == R.styleable.WaveProgressbar_arc_color)
+            if (attr == R.styleable.WaveProgressBar_arc_color)
                 setArccolor(typedArray.getColor(attr, DEFAULT_ARC_COLOR));
-            else if (attr == R.styleable.WaveProgressbar_behind_wave_color)
+            else if (attr == R.styleable.WaveProgressBar_behind_wave_color)
                 setBehidWaveColor(typedArray.getColor(attr, DEFAULT_BEHIND_WAVE_COLOR));
-            else if (attr == R.styleable.WaveProgressbar_front_wave_color)
+            else if (attr == R.styleable.WaveProgressBar_front_wave_color)
                 setFrontWaveColor(typedArray.getColor(attr, DEFAULT_FRONT_WAVE_COLOR));
-            else if (attr == R.styleable.WaveProgressbar_cavans_bg)
+            else if (attr == R.styleable.WaveProgressBar_cavans_bg)
                 setCavansBG(typedArray.getColor(attr, DEFAULT_CAVANS_BG));
-            else if (attr == R.styleable.WaveProgressbar_dwave)
+            else if (attr == R.styleable.WaveProgressBar_dwave)
                 setDwave(typedArray.getDimensionPixelSize(attr, -1));
-            else if (attr == R.styleable.WaveProgressbar_wave_duration)
+            else if (attr == R.styleable.WaveProgressBar_wave_duration)
                 setWaveDuration(typedArray.getInteger(attr, DEFAULT_WAVE_DURATION));
-            else if (attr == R.styleable.WaveProgressbar_border_color)
+            else if (attr == R.styleable.WaveProgressBar_border_color)
                 setBorderColor(typedArray.getColor(attr, DEFAULT_BORDER_COLOR));
-            else if (attr == R.styleable.WaveProgressbar_border_width)
+            else if (attr == R.styleable.WaveProgressBar_border_width)
                 setBorderWidth(typedArray.getDimensionPixelSize(attr, DEFAULT_BORDER_WIDTH));
-            else if (attr == R.styleable.WaveProgressbar_shape)
+            else if (attr == R.styleable.WaveProgressBar_shape)
                 setShape(typedArray.getString(attr));
-            else if (attr == R.styleable.WaveProgressbar_progress)
+            else if (attr == R.styleable.WaveProgressBar_progress)
                 progress = typedArray.getInteger(attr, 0);
-            else if (attr == R.styleable.WaveProgressbar_width)
+            else if (attr == R.styleable.WaveProgressBar_width)
                 setWidth(typedArray.getDimensionPixelSize(attr, SIDE_LENGTH));
-            else if (attr == R.styleable.WaveProgressbar_height)
+            else if (attr == R.styleable.WaveProgressBar_height)
                 setHeight(typedArray.getDimensionPixelSize(attr, SIDE_LENGTH));
-            else if (attr == R.styleable.WaveProgressbar_text_size)
+            else if (attr == R.styleable.WaveProgressBar_text_size)
                 setTextSize(typedArray.getDimensionPixelSize(attr, DEFAULT_TEXT_SIZE));
-            else if (attr == R.styleable.WaveProgressbar_text_color)
+            else if (attr == R.styleable.WaveProgressBar_text_color)
                 setTextColor(typedArray.getColor(attr, DEFAULT_TEXT_COLOR));
-            else if (attr == R.styleable.WaveProgressbar_auto_text_size)
+            else if (attr == R.styleable.WaveProgressBar_auto_text_size)
                 setAudoTextSize(typedArray.getBoolean(attr, false));
-            else if (attr == R.styleable.WaveProgressbar_text_margin_top)
+            else if (attr == R.styleable.WaveProgressBar_text_margin_top)
                 setTextMarginTop(typedArray.getDimensionPixelSize(attr, 0));
         }
         typedArray.recycle();
@@ -205,11 +200,12 @@ public class WaveProgressbar extends View {
         pathPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         pathPaint.setStyle(Paint.Style.FILL);
 
-        textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
         initTxtPaint();
     }
 
     private void initTxtPaint() {
+        textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         if (autoTestSize)
             textSize = side_length / 12;
         textPaint.setTextSize(textSize);
