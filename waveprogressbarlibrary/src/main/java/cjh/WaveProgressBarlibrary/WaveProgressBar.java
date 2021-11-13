@@ -59,7 +59,7 @@ public class WaveProgressBar extends View {
 
     protected static final int SIDE_LENGTH = 800;
 
-    protected static final int MAX = 100;
+    protected static final int MAX = 33;
 
     protected int max = MAX;
 
