@@ -59,10 +59,6 @@ public class WaveProgressBar extends View {
 
     protected static final int SIDE_LENGTH = 800;
 
-    protected static final int MAX = 33;
-
-    protected int max = MAX;
-
     protected int progress;
 
     protected int wave_duration = DEFAULT_WAVE_DURATION;
