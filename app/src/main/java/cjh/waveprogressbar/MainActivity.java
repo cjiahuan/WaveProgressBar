@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                if (progress == 100) {
+                if (progress == 33) {
                     progress = 0;
                 }
             }
